@@ -61,3 +61,15 @@ export interface UndoButtonProps {
 export interface ProvidersProps {
   children: React.ReactNode;
 }
+
+export interface UnoptimizedImageProps {
+  src: string;
+  alt: string;
+  fill?: boolean;
+  width?: number;
+  height?: number;
+  className?: string;
+  sizes?: string;
+  priority?: boolean;
+  quality?: number;
+}

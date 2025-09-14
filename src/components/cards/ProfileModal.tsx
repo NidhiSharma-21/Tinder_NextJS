@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import { Profile } from '@/types/profile';
 import { ProfileModalProps } from '@/types/components';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ClientBadge } from '@/components/common/ClientBadge';
+import { UnoptimizedImage } from '@/components/common/UnoptimizedImage';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Heart, MapPin, Mail, Sparkles, Star, Briefcase, GraduationCap, Ruler, Globe, Languages, Users } from 'lucide-react';
 import { getMatchMessage, getMatchColor } from '@/utils/match';
@@ -33,7 +33,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
         
         {/* Profile Image - Smaller on mobile */}
         <div className="relative h-48 w-full sm:h-64">
-          <Image
+          <UnoptimizedImage
             src={profile.picture}
             alt={profile.name}
             fill

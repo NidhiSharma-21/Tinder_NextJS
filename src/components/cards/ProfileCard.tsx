@@ -2,12 +2,12 @@
 
 import React, { useState } from 'react';
 import { motion, PanInfo } from 'framer-motion';
-import Image from 'next/image';
 import { Profile } from '@/types/profile';
 import { ProfileCardProps } from '@/types/components';
 import { SWIPE_THRESHOLD, ANIMATION_DURATION } from '@/constants/app';
 import { Card } from '@/components/ui/card';
 import { ClientBadge } from '@/components/common/ClientBadge';
+import { UnoptimizedImage } from '@/components/common/UnoptimizedImage';
 import { Heart, X, MapPin, Star } from 'lucide-react';
 
 export const ProfileCard: React.FC<ProfileCardProps> = ({
@@ -84,7 +84,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
       <Card className="relative w-full h-full bg-white/95 backdrop-blur-sm border-0 shadow-2xl overflow-hidden">
         {/* Profile Image - Full Height */}
         <div className="relative h-full w-full">
-          <Image
+          <UnoptimizedImage
             src={profile.picture}
             alt={profile.name}
             fill
