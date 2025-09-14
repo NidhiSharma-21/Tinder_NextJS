@@ -2,17 +2,12 @@
 
 import React, { useState } from 'react';
 import { Profile } from '@/types/profile';
+import { LikedUsersListProps } from '@/types/components';
 import { LikedUserCard } from './LikedUserCard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Heart, Trash2, AlertTriangle } from 'lucide-react';
-
-interface LikedUsersListProps {
-  likedProfiles: Profile[];
-  onRemoveProfile: (profileId: string) => void;
-  onClearAll: () => void;
-}
 
 export const LikedUsersList: React.FC<LikedUsersListProps> = ({
   likedProfiles,

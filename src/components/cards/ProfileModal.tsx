@@ -3,19 +3,13 @@
 import React from 'react';
 import Image from 'next/image';
 import { Profile } from '@/types/profile';
+import { ProfileModalProps } from '@/types/components';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ClientBadge } from '@/components/common/ClientBadge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Heart, MapPin, Mail, Sparkles, Star, Briefcase, GraduationCap, Ruler, Globe, Languages, Users } from 'lucide-react';
 import { getMatchMessage, getMatchColor } from '@/utils/match';
-
-interface ProfileModalProps {
-  profile: Profile | null;
-  isOpen: boolean;
-  onClose: () => void;
-  onLike: (profile: Profile) => void;
-}
 
 export const ProfileModal: React.FC<ProfileModalProps> = ({
   profile,

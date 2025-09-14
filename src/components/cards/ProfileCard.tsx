@@ -4,18 +4,11 @@ import React, { useState } from 'react';
 import { motion, PanInfo } from 'framer-motion';
 import Image from 'next/image';
 import { Profile } from '@/types/profile';
+import { ProfileCardProps } from '@/types/components';
 import { SWIPE_THRESHOLD, ANIMATION_DURATION } from '@/constants/app';
 import { Card } from '@/components/ui/card';
 import { ClientBadge } from '@/components/common/ClientBadge';
 import { Heart, X, MapPin, Star } from 'lucide-react';
-
-interface ProfileCardProps {
-  profile: Profile;
-  onLike: (profile: Profile) => void;
-  onSkip: (profile: Profile) => void;
-  isTop: boolean;
-  zIndex: number;
-}
 
 export const ProfileCard: React.FC<ProfileCardProps> = ({
   profile,

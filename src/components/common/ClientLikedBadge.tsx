@@ -1,12 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { ClientLikedBadgeProps } from '@/types/components';
 import { ClientBadge } from './ClientBadge';
-
-interface ClientLikedBadgeProps {
-  count: number;
-  className?: string;
-}
 
 export const ClientLikedBadge: React.FC<ClientLikedBadgeProps> = ({ count, className }) => {
   const [mounted, setMounted] = useState(false);

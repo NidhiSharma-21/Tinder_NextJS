@@ -1,12 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { ClientBadgeProps } from '@/types/components';
 import { Badge } from '../ui/badge';
-
-interface ClientBadgeProps {
-  children: React.ReactNode;
-  className?: string;
-}
 
 export const ClientBadge: React.FC<ClientBadgeProps> = ({ children, className }) => {
   const [isClient, setIsClient] = useState(false);

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Profile } from '@/types/profile';
+import { LikedUserCardProps } from '@/types/components';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -10,11 +11,6 @@ import { ClientBadge } from '@/components/common/ClientBadge';
 import { ProfileModal } from './ProfileModal';
 import { Trash2, Eye, MapPin, Star, Briefcase, AlertTriangle } from 'lucide-react';
 import { getMatchColor } from '@/utils/match';
-
-interface LikedUserCardProps {
-  profile: Profile;
-  onRemove: (profileId: string) => void;
-}
 
 export const LikedUserCard: React.FC<LikedUserCardProps> = ({
   profile,

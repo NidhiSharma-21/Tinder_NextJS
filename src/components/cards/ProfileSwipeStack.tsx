@@ -3,15 +3,9 @@
 import React from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { Profile } from '@/types/profile';
+import { ProfileSwipeStackProps } from '@/types/components';
 import { ProfileCard } from './ProfileCard';
 import { CARD_STACK_SIZE } from '@/constants/app';
-
-interface ProfileSwipeStackProps {
-  profiles: Profile[];
-  currentIndex: number;
-  onLike: (profile: Profile) => void;
-  onSkip: (profile: Profile) => void;
-}
 
 export const ProfileSwipeStack: React.FC<ProfileSwipeStackProps> = ({
   profiles,

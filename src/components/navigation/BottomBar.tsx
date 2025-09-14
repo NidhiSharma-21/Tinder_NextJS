@@ -1,18 +1,10 @@
 'use client';
 
 import React from 'react';
+import { BottomBarProps } from '@/types/components';
 import { Button } from '@/components/ui/button';
 import { UndoButton } from '@/components/common/UndoButton';
 import { Heart, X, Eye } from 'lucide-react';
-
-interface BottomBarProps {
-  canUndo: boolean;
-  onUndo: () => void;
-  onLike: () => void;
-  onSkip: () => void;
-  onViewProfile: () => void;
-  hasCurrentProfile: boolean;
-}
 
 export const BottomBar: React.FC<BottomBarProps> = ({
   canUndo,

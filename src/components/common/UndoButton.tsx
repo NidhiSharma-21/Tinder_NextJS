@@ -1,13 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { UndoButtonProps } from '@/types/components';
 import { Button } from '@/components/ui/button';
 import { RotateCcw } from 'lucide-react';
-
-interface UndoButtonProps {
-  canUndo: boolean;
-  onUndo: () => void;
-}
 
 export const UndoButton: React.FC<UndoButtonProps> = ({ canUndo, onUndo }) => {
   const [mounted, setMounted] = useState(false);
