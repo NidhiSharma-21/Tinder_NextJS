@@ -1,103 +1,178 @@
-import Image from "next/image";
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useProfiles } from '@/hooks/useProfiles';
+import { ProfileSwipeStack } from '@/components/cards/ProfileSwipeStack';
+import { ProfileModal } from '@/components/cards/ProfileModal';
+import { BottomBar } from '@/components/navigation/BottomBar';
+import { Button } from '@/components/ui/button';
+import { ClientLikedBadge } from '@/components/common/ClientLikedBadge';
+import { useAppDispatch } from '@/hooks/useRedux';
+import { loadLikedFromStorage } from '@/store/slices/likedSlice';
+import { Heart as HeartIcon, Sparkles, X } from 'lucide-react';
+import { Profile } from '@/types/profile';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  
+  const {
+    profiles,
+    currentProfile,
+    currentIndex,
+    status,
+    error,
+    liked,
+    isLastProfile,
+    canUndo,
+    handleLike,
+    handleSkip,
+    handleUndo,
+    refetchProfiles,
+  } = useProfiles();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  // Preload liked data for instant navigation
+  useEffect(() => {
+    dispatch(loadLikedFromStorage());
+  }, [dispatch]);
+
+
+  const handleViewProfile = () => {
+    if (currentProfile) {
+      setSelectedProfile(currentProfile);
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleModalLike = (profile: Profile) => {
+    handleLike(profile);
+    setIsModalOpen(false);
+    setSelectedProfile(null);
+  };
+
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50 flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="w-16 h-16 border-4 border-pink-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <div className="space-y-2">
+            <h3 className="text-lg font-semibold text-gray-800">Finding amazing people...</h3>
+            <p className="text-gray-600">Loading profiles just for you</p>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      </div>
+    );
+  }
+
+  if (status === 'failed') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-pink-50 flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto p-8 bg-white rounded-2xl shadow-lg border">
+          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <X className="w-8 h-8 text-red-500" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Oops! Something went wrong</h2>
+          <p className="text-gray-600 mb-6">{error}</p>
+          <Button onClick={refetchProfiles} className="bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600">
+            <Sparkles className="w-4 h-4 mr-2" />
+            Try Again
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
+      {/* Header */}
+      <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b sticky top-0 z-10">
+        <div className="max-w-md mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center">
+                <HeartIcon className="w-4 h-4 text-white" />
+              </div>
+              <h1 className="text-xl font-bold bg-gradient-to-r from-pink-600 to-red-600 bg-clip-text text-transparent">
+                SwipeApp
+              </h1>
+            </div>
+            <div className="flex items-center gap-2">
+              <Link href="/liked">
+                <Button variant="ghost" size="sm" className="relative h-10 w-10 p-0">
+                  <HeartIcon className="w-5 h-5" />
+                  <ClientLikedBadge 
+                    count={liked.length}
+                    className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center bg-gradient-to-r from-pink-500 to-red-500 text-white text-xs"
+                  />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content - Swipe Card Area */}
+      <div className="max-w-md mx-auto px-4 py-6 pb-40">
+        <div className="relative h-[500px] mb-12" style={{ touchAction: 'pan-y pinch-zoom' }}>
+          <ProfileSwipeStack 
+            profiles={profiles} 
+            currentIndex={currentIndex} 
+            onLike={handleLike} 
+            onSkip={handleSkip} 
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+
+
+        {/* Empty State */}
+        {isLastProfile && (
+          <div className="text-center mt-8 mb-8 p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/20 shadow-lg">
+            <div className="w-16 h-16 bg-gradient-to-r from-pink-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Sparkles className="w-8 h-8 text-pink-500" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              That&apos;s everyone for now!
+            </h3>
+            <p className="text-gray-600 mb-6">
+              You&apos;ve seen all available profiles. Check your matches or refresh for more amazing people.
+            </p>
+            <div className="flex gap-3 justify-center">
+              <Link href="/liked">
+                <Button variant="outline" className="border-pink-200 hover:border-pink-300 hover:bg-pink-50">
+                  <HeartIcon className="w-4 h-4 mr-2" />
+                  View Matches ({liked.length})
+                </Button>
+              </Link>
+              <Button onClick={refetchProfiles} className="bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600">
+                <Sparkles className="w-4 h-4 mr-2" />
+                Find More
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Bottom Bar */}
+      <BottomBar
+        canUndo={canUndo}
+        onUndo={handleUndo}
+        onLike={() => currentProfile && handleLike(currentProfile)}
+        onSkip={() => currentProfile && handleSkip(currentProfile)}
+        onViewProfile={handleViewProfile}
+        hasCurrentProfile={!!currentProfile}
+      />
+
+      {/* Profile Modal */}
+      <ProfileModal
+        profile={selectedProfile}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedProfile(null);
+        }}
+        onLike={handleModalLike}
+      />
     </div>
   );
 }
