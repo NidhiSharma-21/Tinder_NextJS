@@ -233,14 +233,17 @@ npm run type-check   # TypeScript type checking
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
+### Netlify (Recommended)
 1. Push code to GitHub
-2. Connect repository to Vercel
-3. Deploy automatically
+2. Connect repository to Netlify
+3. Configure build settings:
+   - Build command: `npm run build`
+   - Publish directory: `.next`
+4. Deploy automatically
 
 ### Other Platforms
 The app can be deployed to any platform supporting Next.js:
-- Netlify
+- Vercel
 - AWS Amplify
 - Railway
 - DigitalOcean App Platform
