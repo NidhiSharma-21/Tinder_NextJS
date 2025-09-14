@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'randomuser.me',
         port: '',
-        pathname: '/api/portraits/**',
+        pathname: '/api/**',
       },
     ],
     formats: ['image/webp', 'image/avif'],
