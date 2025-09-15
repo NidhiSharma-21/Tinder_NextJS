@@ -18,9 +18,7 @@ export const BottomBar: React.FC<BottomBarProps> = ({
     <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-gray-200 shadow-lg z-20" style={{ touchAction: 'none' }}>
       <div className="max-w-md mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Left Side - Action Buttons */}
           <div className="flex items-center gap-3" style={{ touchAction: 'manipulation' }}>
-            {/* Skip Button */}
             <Button
               variant="outline"
               size="lg"
@@ -31,10 +29,8 @@ export const BottomBar: React.FC<BottomBarProps> = ({
               <X className="w-5 h-5 text-gray-600" />
             </Button>
 
-            {/* Undo Button */}
             <UndoButton canUndo={canUndo} onUndo={onUndo} />
 
-            {/* Like Button */}
             <Button
               size="lg"
               onClick={onLike}
@@ -45,7 +41,6 @@ export const BottomBar: React.FC<BottomBarProps> = ({
             </Button>
           </div>
 
-          {/* Right Side - View Profile Button */}
           <div className="flex items-center" style={{ touchAction: 'manipulation' }}>
             <Button
               variant="outline"

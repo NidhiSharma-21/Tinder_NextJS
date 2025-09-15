@@ -13,7 +13,6 @@ export const UndoButton: React.FC<UndoButtonProps> = ({ canUndo, onUndo }) => {
   }, []);
 
   if (!mounted) {
-    // Render a placeholder that matches the server-side rendering
     return (
       <Button
         variant="ghost"

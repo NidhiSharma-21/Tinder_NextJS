@@ -31,7 +31,6 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
           <DialogTitle>Profile Details</DialogTitle>
         </DialogHeader>
         
-        {/* Profile Image - Smaller on mobile */}
         <div className="relative h-48 w-full sm:h-64">
           <UnoptimizedImage
             src={profile.picture}
@@ -44,9 +43,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
         </div>
 
-        {/* Profile Details - Scrollable */}
         <div className="p-4 space-y-4 overflow-y-auto max-h-[calc(95vh-12rem)] sm:p-6 sm:space-y-6 sm:max-h-[calc(90vh-16rem)]">
-          {/* Header - More compact on mobile */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -78,7 +75,6 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
             )}
           </div>
 
-          {/* Quick Info Cards - More compact */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {profile.location && (
               <Card className="bg-gradient-to-r from-pink-50 to-purple-50 border-pink-200">

@@ -12,7 +12,6 @@ export const ClientLikedBadge: React.FC<ClientLikedBadgeProps> = ({ count, class
   }, []);
 
   if (!mounted) {
-    // Don't render anything on server to avoid hydration mismatch
     return null;
   }
 

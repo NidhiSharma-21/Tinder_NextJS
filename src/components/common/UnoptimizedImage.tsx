@@ -21,7 +21,6 @@ export const UnoptimizedImage: React.FC<UnoptimizedImageProps> = ({
   const handleError = () => {
     if (!hasError) {
       setHasError(true);
-      // Fallback to a placeholder image
       setImgSrc('https://via.placeholder.com/400x400/cccccc/666666?text=No+Image');
     }
   };
@@ -32,7 +31,7 @@ export const UnoptimizedImage: React.FC<UnoptimizedImageProps> = ({
     className,
     quality,
     priority,
-    unoptimized: true, // Force unoptimized for external images
+    unoptimized: true, 
     sizes: sizes || '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
     onError: handleError,
   };
